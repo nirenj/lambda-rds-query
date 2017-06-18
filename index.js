@@ -19,10 +19,11 @@ function processQuery(event, context, callback) {
       db_connection.connect();
       db_connection.query({
         sql: event.query,
-        timeout: 10000
+        timeout: 60000
       },function(error, results, fields){
         db_connection.end();
         if (error) {
+          console.log('query error: ' + event.query);
           callback(error,null);
         } else {
           callback(null,results);
