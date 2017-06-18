@@ -1,7 +1,7 @@
 {
   "name": "@ramouton/lambda-rds-query",
   "description": "AWS Lambda Function Query Mysql/MariaDB/Aurora RDS Database",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "index.js",
   "author": "Raymond A. Mouton <raymond_mouton@icloud.com>",
   "contributors": [
@@ -21,6 +21,7 @@
   "license": "NONE",
   "keywords": [],
   "dependencies": {
+    "aws-sdk": "^2.72.0",
     "mysql": "^2.13.0"
   }
 }
