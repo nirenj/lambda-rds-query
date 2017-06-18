@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ramouton/lambda-rds-query#readme",
   "license": "NONE",
   "keywords": [],
-  "dependencies" : {
+  "dependencies": {
+    "mysql": "^2.13.0"
   }
 }
