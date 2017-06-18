@@ -35,7 +35,7 @@ function processQuery(event, context, callback) {
 }
 
 exports.handler = (event, context, callback) => {
-  if (decrypted) {
+  if (DBPasswd) {
     processQuery(event, context, callback);
   } else {
     const kms = new AWS.KMS();
