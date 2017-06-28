@@ -1,10 +1,19 @@
 const AWS = require('aws-sdk');
 var mysql = require('mysql');
 
+// create cache
+var MemoryCache = require('fast-memory-cache');
+var cache = new MemoryCache();
+
 var EncryptedDBPasswd = process.env.DB_PASSWD;
 var DBPasswd;
 
 function processQuery(event, context, callback) {
+  let cached = cache.get(event.query);
+
+  if (cached) {
+    return callback(null, cached);
+  }
 
   if (event.keepalive) {
     callback(null,{'alive':true});
@@ -26,9 +35,10 @@ function processQuery(event, context, callback) {
           console.log('query error: ' + event.query);
           callback(error,null);
         } else {
+          cache.set(event.query, results, 60);
           callback(null,results);
         }
-      });  
+      });
     } else {
       callback('Must specify "query"',null);
     }

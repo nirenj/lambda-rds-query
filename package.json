@@ -22,6 +22,7 @@
   "keywords": [],
   "dependencies": {
     "aws-sdk": "^2.72.0",
+    "fast-memory-cache": "^2.0.4",
     "mysql": "^2.13.0"
   }
 }
