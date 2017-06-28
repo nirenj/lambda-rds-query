@@ -5,8 +5,7 @@ var mysql = require('mysql');
 var MemoryCache = require('fast-memory-cache');
 var cache = new MemoryCache();
 
-var EncryptedDBPasswd = process.env.DB_PASSWD;
-var DBPasswd;
+var DBPasswd = process.env.DB_PASSWD;
 
 function processQuery(event, context, callback) {
   let cached = cache.get(event.query);
