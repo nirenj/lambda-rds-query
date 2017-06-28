@@ -21,7 +21,6 @@
   "license": "NONE",
   "keywords": [],
   "dependencies": {
-    "aws-sdk": "^2.72.0",
     "mysql": "^2.13.0"
   }
 }

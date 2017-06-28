@@ -1,10 +1,7 @@
-const AWS = require('aws-sdk');
-var mysql = require('mysql');
+exports.handler = (event, context, callback) => {
+  var mysql = require('mysql');
 
-var EncryptedDBPasswd = process.env.DB_PASSWD;
-var DBPasswd;
-
-function processQuery(event, context, callback) {
+  var DBPasswd = process.env.DB_PASSWD;
 
   if (event.keepalive) {
     callback(null,{'alive':true});
@@ -32,21 +29,5 @@ function processQuery(event, context, callback) {
     } else {
       callback('Must specify "query"',null);
     }
-  }
-}
-
-exports.handler = (event, context, callback) => {
-  if (DBPasswd) {
-    processQuery(event, context, callback);
-  } else {
-    const kms = new AWS.KMS();
-    kms.decrypt({ CiphertextBlob: new Buffer(EncryptedDBPasswd, 'base64') }, (err, data) => {
-      if (err) {
-        console.log('Decrypt error:', err);
-        return callback(err);
-      }
-      DBPasswd = data.Plaintext.toString('ascii');
-      processQuery(event, context, callback);
-    });
   }
 };
