@@ -29,7 +29,7 @@ exports.handler = (event, context, callback) => {
           callback(error,null);
         } else {
           if (do_response_size == 1) {
-            callback(null,sizeof(results));
+            callback(null,{'bytes':sizeof(results)});
           } else {
             callback(null,results);
           }
