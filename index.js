@@ -1,5 +1,6 @@
 exports.handler = (event, context, callback) => {
   var mysql = require('mysql');
+  var sizeof = require('object-sizeof');
 
   var DBPasswd = process.env.DB_PASSWD;
 
@@ -13,6 +14,10 @@ exports.handler = (event, context, callback) => {
       database : process.env.DB_NAME
     });
     if (event.query) {
+      var do_response_size = 0;
+      if (event.return_size) {
+          do_response_size = 1
+      }
       db_connection.connect();
       db_connection.query({
         sql: event.query,
@@ -23,7 +28,11 @@ exports.handler = (event, context, callback) => {
           console.log('query error: ' + event.query);
           callback(error,null);
         } else {
-          callback(null,results);
+          if (do_response_size == 1) {
+            callback(null,sizeof(results));
+          } else {
+            callback(null,results);
+          }
         }
       });  
     } else {
