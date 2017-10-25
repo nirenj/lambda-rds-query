@@ -1,4 +1,4 @@
-query_paged_results_cache = {};
+var query_paged_results_cache = {};
 
 exports.handler = (event, context, callback) => {
   var mysql = require('mysql');
@@ -10,6 +10,16 @@ exports.handler = (event, context, callback) => {
   var large_query_hash = null;
   var large_query_result_page = null;
   var do_response_size = false;
+
+  if (event.cache_clear) {
+    if (event.query_hash) {
+      delete query_paged_results_cache[large_query_hash];
+    } else {
+      delete query_paged_results_cache;
+      query_paged_results_cache = {};
+    }
+    callback(null,{'cache_query_hash_count': query_paged_results_cache.keys().length});
+  }
 
   if (event.keepalive) {
     callback(null,{'alive':true});
