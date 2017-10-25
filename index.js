@@ -43,20 +43,20 @@ exports.handler = (event, context, callback) => {
         } else {
           // CALCULATE QUERY HASH
         }
+
+        if ((large_query_result_page != null) && (large_query_hash in query_paged_results_cache)) {
+          var large_query_result_next_page = null;
+          if ((large_query_result_page + 1) < query_paged_results_cache[large_query_hash].length ) {
+            large_query_result_next_page = (large_query_result_page + 1);
+          }
+          callback(null,{'results': query_paged_results_cache[large_query_hash][large_query_result_page], 'next_result_page': large_query_result_next_page,'total_result_page_count': query_paged_results_cache[large_query_hash].length, 'query': event.query, 'query_hash': large_query_hash,'lqre': true});
+        }
       }
 
       if (event.return_size) {
         do_response_size = true;
         large_query_result_expected = false;
         large_query_result_page = null;
-      }
-
-      if ((large_query_result_page != null) && (large_query_hash in query_paged_results_cache)) {
-        var large_query_result_next_page = null;
-        if ((large_query_result_page + 1) < query_paged_results_cache[large_query_hash].length ) {
-          large_query_result_next_page = (large_query_result_page + 1);
-        }
-        callback(null,{'results': query_paged_results_cache[large_query_hash][large_query_result_page], 'next_result_page': large_query_result_next_page,'query': event.query, 'query_hash': large_query_hash,'lqre': true});
       }
     
       db_connection.connect();
